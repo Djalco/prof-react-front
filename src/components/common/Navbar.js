@@ -48,6 +48,15 @@ const Sidebar = () => {
                     </li>
                     <li className="nav-item">
                         <Link 
+                            to="/etudiants" 
+                            className={`nav-link text-white ${isActive('/etudiants') ? 'bg-primary rounded' : ''}`}
+                        >
+                            <span className="me-2">🎓</span>
+                            Étudiants
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link 
                             to="/messages" 
                             className={`nav-link text-white ${isActive('/messages') ? 'bg-primary rounded' : ''}`}
                         >
