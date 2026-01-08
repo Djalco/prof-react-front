@@ -1,23 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./Home";
+import Form from "./Form";
 
 function App() {
+  const time = new Date().toLocaleString();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <h1>Les Profs de l'école</h1>
+      <p>{time}</p>
+      <Router>
+
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/prof/:id" element={ <Form  edit={true}/>} />
+          <Route path="/prof-create" element={<Form edit={false} />} />
+        </Routes>
+      </Router>
+
     </div>
   );
 }
