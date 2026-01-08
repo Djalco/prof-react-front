@@ -1,5 +1,5 @@
 import { Component } from "react";
-import ProfService from "./ProfService";
+import ProfService from "./service/ProfService";
 import { useParams, useNavigate } from "react-router-dom";
 
 class Form extends Component {

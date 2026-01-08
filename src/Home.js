@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
-import ProfService from './ProfService';
+import ProfService from './service/ProfService';
 
 class Home extends Component{
     constructor(props){
