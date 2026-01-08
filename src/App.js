@@ -1,24 +1,22 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./Home";
-import Form from "./Form";
+import { BrowserRouter as Router } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
   const time = new Date().toLocaleString();
 
   return (
-    <div className="container">
-      <h1>Les Profs de l'école</h1>
-      <p>{time}</p>
+    <AuthProvider>
       <Router>
-
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/prof/:id" element={ <Form  edit={true}/>} />
-          <Route path="/prof-create" element={<Form edit={false} />} />
-        </Routes>
+        <div className="container mt-4">
+          <div className="text-center mb-4">
+            <h1>Les Profs de l'école</h1>
+            <p className="text-muted">{time}</p>
+          </div>
+          <AppRoutes />
+        </div>
       </Router>
-
-    </div>
+    </AuthProvider>
   );
 }
 
