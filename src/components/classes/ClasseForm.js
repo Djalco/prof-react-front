@@ -1,14 +1,14 @@
 import { Component } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import etudiantService from "../../services/etudiant.service";
+import classeService from "../../services/classe.service";
 
-class EtudiantForm extends Component {
+class ClasseForm extends Component {
     constructor(props) {
-        super(props);   
+        super(props);
         this.state = {
             nom: '',
-            prenom: '',
-            loading: false  
+            niveau: '',
+            loading: false
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSave = this.handleSave.bind(this);
@@ -17,7 +17,7 @@ class EtudiantForm extends Component {
     componentDidMount() {
         if (this.props.edit) {
             this.setState({ loading: true });
-            etudiantService.getById(this.props.params.id)
+            classeService.getById(this.props.params.id)
                 .then(response => {
                     this.setState({
                         ...response.data.data,
@@ -26,81 +26,81 @@ class EtudiantForm extends Component {
                 })
                 .catch(() => {
                     this.setState({ loading: false });
-                });         
+                });
         }
     }
     handleChange(evt) {
         const { id, value } = evt.target;
         this.setState({ [id]: value });
-    }   
+    }
     handleSave() {
         this.setState({ loading: true });
-        const { nom, prenom } = this.state;         
-        const data = { nom, prenom };
+        const { nom, niveau } = this.state;
+        const data = { nom, niveau };
         const savePromise = this.props.edit
-            ? etudiantService.update(this.props.params.id, data)
-            : etudiantService.create(data); 
+            ? classeService.update(this.props.params.id, data)
+            : classeService.create(data);
         savePromise
             .then(() => {
-                this.props.navigate('/etudiants');   
+                this.props.navigate('/classes');
             })
             .catch(() => {
                 this.setState({ loading: false });
-            }); 
+            });
     }
     handleCancel() {
-        this.props.navigate('/etudiants');
-    }       
+        this.props.navigate('/classes');
+    }
     render() {
         const { loading } = this.state;
         return (
-            <div>       
+            <div>
                 <div className="d-flex justify-content-between align-items-center mb-3">
-                    <h2>{this.props.edit ? '✏️ Modifier un étudiant' : '➕ Ajouter un étudiant'}</h2>
-                </div>       
-                {loading ? (    
-                    <div className="text-center">       
+                    <h2>{this.props.edit ? '✏️ Modifier une classe' : '➕ Ajouter une classe'}</h2>
+                </div>
+                {loading ? (
+                    <div className="text-center">
                         <div className="spinner-border" role="status">
                             <span className="visually-hidden">Chargement...</span>
                         </div>
-                    </div>       
-                ) : (       
+                    </div>
+                ) : (
                     <div className="card">
                         <div className="card-body">
                             <div className="mb-3">
                                 <label htmlFor="nom" className="form-label">Nom</label>
                                 <input
                                     type="text"
-                                    id="nom"        
+                                    id="nom"
                                     className="form-control"
                                     value={this.state.nom}
-                                    onChange={this.handleChange}    
+                                    onChange={this.handleChange}
                                     required
                                 />
-                            </div>  
+                            </div>
                             <div className="mb-3">
-                                <label htmlFor="prenom" className="form-label">Prénom</label>
+                                <label htmlFor="niveau" className="form-label">Niveau</label>
                                 <input
-                                    type="text"     
-                                    id="prenom"
+                                    type="text"
+                                    id="niveau"
                                     className="form-control"
-                                    value={this.state.prenom}
-                                    onChange={this.handleChange}        
+                                    value={this.state.niveau}
+                                    onChange={this.handleChange}
                                     required
                                 />
-                            </div>  
-                            <button className="btn btn-primary me-2" onClick={this.handleSave}> 
+                            </div>
+                            <button className="btn btn-primary me-2" onClick={this.handleSave}>
                                 Enregistrer
-                            </button>   
+                            </button>
                             <button className="btn btn-secondary" onClick={this.handleCancel}>
                                 Annuler
-                            </button>   
-                        </div>      
-                    </div>       
-                )}       
-            </div>       
-        );       
-    }       
+                            </button>
+                        </div>
+                    </div>
+                )}
+            </div>
+        );
+    }
 }
 
 // HOC pour injecter params et navigate
@@ -112,4 +112,4 @@ function withRouter(Component) {
     };
 }
 
-export default withRouter(EtudiantForm);
+export default withRouter(ClasseForm);

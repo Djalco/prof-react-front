@@ -55,6 +55,16 @@ const Sidebar = () => {
                             Étudiants
                         </Link>
                     </li>
+
+                    <li className="nav-item">
+                        <Link
+                            to="/classes"
+                            className={`nav-link text-white ${isActive('/classes') ? 'bg-primary rounded' : ''}`}
+                        >
+                            <span className="me-2">🎓</span>
+                            Classes
+                        </Link>
+                    </li>
                     <li className="nav-item">
                         <Link 
                             to="/messages" 

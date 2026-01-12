@@ -5,4 +5,5 @@ export const API_ENDPOINTS = {
     AUTH: '/auth',
     MESSAGES: '/messages',
     ETUDIANTS: '/etudiants',
+    CLASSES: '/classes',
 };

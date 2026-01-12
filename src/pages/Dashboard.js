@@ -8,7 +8,40 @@ const Dashboard = () => {
                 <h1 className="display-4">Bienvenue a vous</h1>
                 <p className="lead text-muted">Gérez votre Ecole</p>
             </div>
-
+            <div className="row">
+                <div className="col-md-6 mb-4">
+                    <div className="card h-100 shadow-sm">
+                        <div className="card-body text-center">
+                            <div className="mb-3">
+                                <span style={{ fontSize: '4rem' }}>🎓</span>
+                            </div>
+                            <h3 className="card-title">Étudiants</h3>
+                            <p className="card-text text-muted">
+                                Gérez la liste des étudiants de l'école
+                            </p>
+                            <Link to="/etudiants" className="btn btn-primary">
+                                Voir les étudiants
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-md-6 mb-4">
+                    <div className="card h-100 shadow-sm">
+                        <div className="card-body text-center">
+                            <div className="mb-3">
+                                <span style={{ fontSize: '4rem' }}>🎓</span>
+                            </div>
+                            <h3 className="card-title">Classes</h3>
+                            <p className="card-text text-muted">
+                                Gérez la liste des classes de l'école
+                            </p>
+                            <Link to="/classes" className="btn btn-primary">
+                                Voir les classes
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div className="row">
                 <div className="col-md-6 mb-4">
                     <div className="card h-100 shadow-sm">
@@ -43,25 +76,7 @@ const Dashboard = () => {
                         </div>
                     </div>
                 </div>
-            </div>
-            <div className="row">
-                <div className="col-md-6 mb-4">
-                    <div className="card h-100 shadow-sm">
-                        <div className="card-body text-center">
-                            <div className="mb-3">
-                                <span style={{ fontSize: '4rem' }}>🎓</span>
-                            </div>
-                            <h3 className="card-title">Étudiants</h3>
-                            <p className="card-text text-muted">
-                                Gérez la liste des étudiants de l'école
-                            </p>
-                            <Link to="/etudiants" className="btn btn-primary">
-                                Voir les étudiants
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </div>   
 
             <div className="row mt-4">
                 <div className="col-md-12">

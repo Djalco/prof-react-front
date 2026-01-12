@@ -49,7 +49,7 @@ class ProfForm extends Component {
 
         savePromise
             .then(() => {
-                this.props.navigate('/');
+                this.props.navigate('/profs');
             })
             .catch(() => {
                 this.setState({ loading: false });
@@ -57,7 +57,7 @@ class ProfForm extends Component {
     }
 
     handleCancel() {
-        this.props.navigate('/');
+        this.props.navigate('/profs');
     }
 
     render() {
@@ -113,7 +113,7 @@ class ProfForm extends Component {
 }
 
 // HOC pour injecter params et navigate
-export function withRouter(Component) {
+function withRouter(Component) {
     return props => {
         const params = useParams();
         const navigate = useNavigate();
