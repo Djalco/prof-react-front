@@ -20,6 +20,9 @@ const ProfItem = ({ prof, onDelete }) => {
                 <Link to={`/prof/${id}`}>
                     <button className='btn btn-sm btn-info'>Éditer</button>
                 </Link>
+                <Link to={`/prof/${id}/classes`}>
+                    <button className='btn btn-sm btn-success ms-2'>Classes</button>
+                </Link>
                 <button className='btn btn-sm btn-danger ms-2' onClick={handleDelete}>
                     Supprimer
                 </button>

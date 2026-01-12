@@ -9,8 +9,10 @@ import Messages from '../pages/Messages';
 import Etudiants from '../pages/Etudiants';
 
 import ProfForm from '../components/profs/ProfForm';
+import ProfClasses from '../pages/ProfClasses';
 import Classes from '../pages/Classes';
 import ClasseForm from '../components/classes/ClasseForm';
+import ClasseProfs from '../pages/ClasseProfs';
 import EtudiantForm from '../components/etudiants/EtudiantForm';
 
 const AppRoutes = () => {
@@ -31,6 +33,7 @@ const AppRoutes = () => {
                 <Route path="profs" element={<Home />} />
                 <Route path="prof/:id" element={<ProfForm edit={true} />} />
                 <Route path="prof-create" element={<ProfForm edit={false} />} />
+                <Route path="prof/:id/classes" element={<ProfClasses />} />
 
                 {/* Messages route */}   
                 <Route path="messages" element={<Messages />} />
@@ -44,6 +47,7 @@ const AppRoutes = () => {
                 <Route path="classes" element={<Classes />} />
                 <Route path="classe/:id" element={<ClasseForm edit={true} />} />
                 <Route path="classe-create" element={<ClasseForm edit={false} />} />
+                <Route path="classe/:id/profs" element={<ClasseProfs />} />
             </Route>
 
             <Route path="*" element={<Navigate to="/" replace />} />

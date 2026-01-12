@@ -19,6 +19,9 @@ const ClasseItem = ({ classe, onDelete }) => {
                 <Link to={`/classe/${id}`}>
                     <button className='btn btn-sm btn-info'>Éditer</button>
                 </Link>
+                <Link to={`/classe/${id}/profs`}>
+                    <button className='btn btn-sm btn-success ms-2'>Professeurs</button>
+                </Link>
                 <button className='btn btn-sm btn-danger ms-2' onClick={handleDelete}>
                     Supprimer
                 </button>

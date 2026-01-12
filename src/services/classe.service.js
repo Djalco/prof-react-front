@@ -22,6 +22,14 @@ class ClasseService {
     async remove(id) {
         return apiClient.delete(`${API_ENDPOINTS.CLASSES}/${id}`);
     }
+
+    async assignProfs(classeId, profIds) {
+        return apiClient.post(`${API_ENDPOINTS.CLASSES}/${classeId}/profs`, { profIds });
+    }
+
+    async getProfs(classeId) {
+        return apiClient.get(`${API_ENDPOINTS.CLASSES}/${classeId}/profs`);
+    }
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
