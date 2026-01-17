@@ -34,6 +34,11 @@ class LoginAdmin extends Component {
       .then(response => {
         if (response.data.token) {
           authUtils.setToken(response.data.token);
+          // Stocker les informations de l'utilisateur
+          localStorage.setItem('userName', response.data.nom);
+          localStorage.setItem('userEmail', response.data.email);
+          localStorage.setItem('userRole', response.data.role);
+          localStorage.setItem('userId', response.data.userId);
           this.setState({ redirectToHome: true });
         }
       })
@@ -45,6 +50,8 @@ class LoginAdmin extends Component {
         });
       });
   }
+
+
 
   render() {
     if (this.state.redirectToHome) {

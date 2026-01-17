@@ -39,7 +39,7 @@ class Etudiants extends Component {
                 <div className='d-flex justify-content-between align-items-center mb-3'>
                     <h2>👨‍🏫 Liste des etudiants</h2>
                     <div>
-                        <Link to="/etudiant-create">
+                        <Link to="/admin/etudiant-create">
                             <button className='btn btn-primary'>
                                 ➕ Ajouter un etudiant
                             </button>

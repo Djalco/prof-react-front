@@ -1,6 +1,7 @@
 import { Component } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import etudiantService from "../../services/etudiant.service";
+import classService from "../../services/classe.service";
 
 class EtudiantForm extends Component {
     constructor(props) {
@@ -8,6 +9,9 @@ class EtudiantForm extends Component {
         this.state = {
             nom: '',
             prenom: '',
+            email: '',
+            classeId: '',
+            classes: [],
             loading: false  
         };
         this.handleChange = this.handleChange.bind(this);
@@ -15,6 +19,15 @@ class EtudiantForm extends Component {
         this.handleCancel = this.handleCancel.bind(this);
     }
     componentDidMount() {
+        // Charger la liste des classes
+        classService.getAll()
+            .then(response => {
+                this.setState({ classes: response.data.data || [] });
+            })
+            .catch(error => {
+                console.error('Erreur lors du chargement des classes:', error);
+            });
+
         if (this.props.edit) {
             this.setState({ loading: true });
             etudiantService.getById(this.props.params.id)
@@ -35,21 +48,21 @@ class EtudiantForm extends Component {
     }   
     handleSave() {
         this.setState({ loading: true });
-        const { nom, prenom } = this.state;         
-        const data = { nom, prenom };
+        const { nom, prenom, email, classeId } = this.state;         
+        const data = { nom, prenom, email, classeId: classeId || null };
         const savePromise = this.props.edit
             ? etudiantService.update(this.props.params.id, data)
             : etudiantService.create(data); 
         savePromise
             .then(() => {
-                this.props.navigate('/etudiants');   
+                this.props.navigate('/admin/etudiants');   
             })
             .catch(() => {
                 this.setState({ loading: false });
             }); 
     }
     handleCancel() {
-        this.props.navigate('/etudiants');
+        this.props.navigate('/admin/etudiants');
     }       
     render() {
         const { loading } = this.state;
@@ -88,7 +101,34 @@ class EtudiantForm extends Component {
                                     onChange={this.handleChange}        
                                     required
                                 />
-                            </div>  
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="email" className="form-label">Email</label>
+                                <input
+                                    type="email"     
+                                    id="email"
+                                    className="form-control"
+                                    value={this.state.email}
+                                    onChange={this.handleChange}        
+                                    required
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="classeId" className="form-label">Classe</label>
+                                <select
+                                    id="classeId"
+                                    className="form-select"
+                                    value={this.state.classeId}
+                                    onChange={this.handleChange}
+                                >
+                                    <option value="">-- Sélectionner une classe --</option>
+                                    {this.state.classes.map(classe => (
+                                        <option key={classe.id} value={classe.id}>
+                                            {classe.nom} - {classe.niveau}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
                             <button className="btn btn-primary me-2" onClick={this.handleSave}> 
                                 Enregistrer
                             </button>   

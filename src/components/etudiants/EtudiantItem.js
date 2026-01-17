@@ -16,7 +16,7 @@ const EtudiantItem = ({ etudiant, onDelete }) => {
             <td>{nom}</td>
             <td>{prenom}</td>
             <td>
-                <Link to={`/etudiant/${id}`}>
+                <Link to={`/admin/etudiant/${id}`}>
                     <button className='btn btn-sm btn-info'>Éditer</button>
                 </Link>
                 <button className='btn btn-sm btn-danger ms-2' onClick={handleDelete}>

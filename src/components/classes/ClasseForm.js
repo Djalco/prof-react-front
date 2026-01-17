@@ -10,6 +10,7 @@ class ClasseForm extends Component {
         this.state = {
             nom: '',
             niveau: '',
+            description: '',
             selectedProfs: [],
             allProfs: [],
             loading: false
@@ -70,8 +71,8 @@ class ClasseForm extends Component {
 
     handleSave() {
         this.setState({ loading: true });
-        const { nom, niveau, selectedProfs } = this.state;
-        const data = { nom, niveau };
+        const { nom, niveau, description, selectedProfs } = this.state;
+        const data = { nom, niveau, description };
         
         const savePromise = this.props.edit
             ? classeService.update(this.props.params.id, data)
@@ -86,7 +87,7 @@ class ClasseForm extends Component {
                 return classeService.assignProfs(classeId, selectedProfs);
             })
             .then(() => {
-                this.props.navigate('/classes');
+                this.props.navigate('/admin/classes');
             })
             .catch((err) => {
                 console.error('Erreur lors de la sauvegarde:', err);
@@ -96,7 +97,7 @@ class ClasseForm extends Component {
     }
 
     handleCancel() {
-        this.props.navigate('/classes');
+        this.props.navigate('/admin/classes');
     }
 
     render() {
@@ -135,6 +136,17 @@ class ClasseForm extends Component {
                                     value={this.state.niveau}
                                     onChange={this.handleChange}
                                     required
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="description" className="form-label">Description</label>
+                                <textarea
+                                    id="description"
+                                    className="form-control"
+                                    rows="3"
+                                    value={this.state.description}
+                                    onChange={this.handleChange}
+                                    placeholder="Description de la classe (optionnel)"
                                 />
                             </div>
                             

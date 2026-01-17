@@ -39,7 +39,7 @@ class Profs extends Component {
                 <div className='d-flex justify-content-between align-items-center mb-3'>
                     <h2>👨‍🏫 Liste des Professeurs</h2>
                     <div>
-                        <Link to="/prof-create">
+                        <Link to="/admin/prof-create">
                             <button className='btn btn-primary'>
                                 ➕ Ajouter un professeur
                             </button>

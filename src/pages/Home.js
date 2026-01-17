@@ -14,7 +14,7 @@ class Home extends Component {
                 navigate('/login-prof');
                 break;
             case 'etudiant':
-                navigate('/login');
+                navigate('/login-etudiant');
                 break;
             default:
                 break;

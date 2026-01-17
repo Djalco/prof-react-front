@@ -17,10 +17,10 @@ const ProfItem = ({ prof, onDelete }) => {
             <td>{prenom}</td>
             <td>{bureau}</td>
             <td>
-                <Link to={`/prof/${id}`}>
+                <Link to={`/admin/prof/${id}`}>
                     <button className='btn btn-sm btn-info'>Éditer</button>
                 </Link>
-                <Link to={`/prof/${id}/classes`}>
+                <Link to={`/admin/prof/${id}/classes`}>
                     <button className='btn btn-sm btn-success ms-2'>Classes</button>
                 </Link>
                 <button className='btn btn-sm btn-danger ms-2' onClick={handleDelete}>

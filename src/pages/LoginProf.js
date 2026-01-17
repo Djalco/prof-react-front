@@ -34,7 +34,10 @@ class LoginProf extends Component {
             .then(response => {
                 if (response.data.token) {
                     authUtils.setToken(response.data.token);
-                    localStorage.setItem('userRole', 'prof'); // Stocker le rôle
+                    // Stocker les informations du professeur
+                    localStorage.setItem('userName', response.data.nom + ' ' + (response.data.prenom || ''));
+                    localStorage.setItem('userRole', 'prof');
+                    localStorage.setItem('userId', response.data.profId);
                     this.setState({ redirectToHome: true });
                 }
             })

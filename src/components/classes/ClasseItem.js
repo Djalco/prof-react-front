@@ -16,11 +16,14 @@ const ClasseItem = ({ classe, onDelete }) => {
             <td>{nom}</td>
             <td>{niveau}</td>
             <td>
-                <Link to={`/classe/${id}`}>
+                <Link to={`/admin/classe/${id}`}>
                     <button className='btn btn-sm btn-info'>Éditer</button>
                 </Link>
-                <Link to={`/classe/${id}/profs`}>
+                <Link to={`/admin/classe/${id}/profs`}>
                     <button className='btn btn-sm btn-success ms-2'>Professeurs</button>
+                </Link>
+                <Link to={`/admin/classe/${id}/etudiants`}>
+                    <button className='btn btn-sm btn-primary ms-2'>Étudiants</button>
                 </Link>
                 <button className='btn btn-sm btn-danger ms-2' onClick={handleDelete}>
                     Supprimer

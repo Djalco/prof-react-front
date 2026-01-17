@@ -12,6 +12,7 @@ class ProfForm extends Component {
             nom: '',
             prenom: '',
             bureau: '',
+            mdp: '',
             selectedClasses: [],
             allClasses: [],
             loading: false
@@ -72,8 +73,8 @@ class ProfForm extends Component {
 
     handleSave() {
         this.setState({ loading: true });
-        const { nom, prenom, bureau, selectedClasses } = this.state;
-        const data = { nom, prenom, bureau, mdp: '' };
+        const { nom, prenom, bureau, mdp, selectedClasses } = this.state;
+        const data = { nom, prenom, bureau, mdp: mdp || undefined };
 
         const savePromise = this.props.edit
             ? profService.update(this.props.params.id, data)
@@ -88,7 +89,7 @@ class ProfForm extends Component {
                 return profService.assignClasses(profId, selectedClasses);
             })
             .then(() => {
-                this.props.navigate('/profs');
+                this.props.navigate('/admin/profs');
             })
             .catch((err) => {
                 console.error('Erreur lors de la sauvegarde:', err);
@@ -98,7 +99,7 @@ class ProfForm extends Component {
     }
 
     handleCancel() {
-        this.props.navigate('/profs');
+        this.props.navigate('/admin/profs');
     }
 
     render() {
@@ -128,6 +129,14 @@ class ProfForm extends Component {
                         id="bureau"
                         label="Bureau"
                         value={this.state.bureau}
+                        onChange={this.handleChange}
+                        required
+                    />
+                    <TextInput
+                        id="mdp"
+                        label="Mot de passe"
+                        type="password"
+                        value={this.state.mdp}
                         onChange={this.handleChange}
                         required
                     />

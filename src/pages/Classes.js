@@ -37,7 +37,7 @@ class Classes extends Component {
 
                     <h2>🏫 Liste des classes</h2>
                     <div>
-                        <Link to="/classe-create">
+                        <Link to="/admin/classe-create">
                             <button className='btn btn-primary'>
                                 ➕ Ajouter une classe
                             </button>

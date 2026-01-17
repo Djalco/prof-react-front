@@ -30,6 +30,14 @@ class ClasseService {
     async getProfs(classeId) {
         return apiClient.get(`${API_ENDPOINTS.CLASSES}/${classeId}/profs`);
     }
+
+    async getClassesByProf(profId) {
+        return apiClient.get(`/profs/${profId}/classes`);
+    }
+
+    async getEtudiants(classeId) {
+        return apiClient.get(`${API_ENDPOINTS.CLASSES}/${classeId}/etudiants`);
+    }
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
