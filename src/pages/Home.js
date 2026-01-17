@@ -1,72 +1,106 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import profService from '../services/prof.service';
-import ProfList from '../components/profs/ProfList';
+import { Component } from "react";
+import { useNavigate } from "react-router-dom";
 
 class Home extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            profSet: [],
-            loading: true
-        };
-        this.removeProf = this.removeProf.bind(this);
-    }
 
-    componentDidMount() {
-        profService.getAll()
-            .then(response => {
-                this.setState({
-                    profSet: response.data.data,
-                    loading: false
-                });
-            })
-            .catch(() => {
-                this.setState({ loading: false });
-            });
-    }
-
-    removeProf(id) {
-        const res = this.state.profSet.filter((item) => item.id !== id);
-        this.setState({ profSet: res });
+    handleRoleSelection = (role) => {
+        const { navigate } = this.props;
+        
+        switch(role) {
+            case 'admin':
+                navigate('/login');
+                break;
+            case 'prof':
+                navigate('/login-prof');
+                break;
+            case 'etudiant':
+                navigate('/login');
+                break;
+            default:
+                break;
+        }
     }
 
     render() {
-        const { loading, profSet } = this.state;
-
-        return (
-            <div>
-                <div className='d-flex justify-content-between align-items-center mb-3'>
-                    <h2>👨‍🏫 Liste des Professeurs</h2>
-                    <div>
-                        <Link to="/prof-create">
-                            <button className='btn btn-primary'>
-                                ➕ Ajouter un professeur
-                            </button>
-                        </Link>
-                    </div>
+        return(
+            <div className="container">
+                <div className="text-center mb-5">
+                    <h1 className="display-4 mb-3">Bienvenue</h1>
+                    <p className="lead text-muted">Choisissez votre rôle pour continuer</p>
                 </div>
 
-                {loading ? (
-                    <div className="text-center">
-                        <div className="spinner-border" role="status">
-                            <span className="visually-hidden">Chargement...</span>
+                <div className="row justify-content-center g-4">
+                    <div className="col-md-4">
+                        <div className="card h-100 shadow-sm hover-card">
+                            <div className="card-body text-center p-5">
+                                <div className="mb-4">
+                                    <span style={{ fontSize: '5rem' }}>👨‍💼</span>
+                                </div>
+                                <h3 className="card-title mb-3">Administrateur</h3>
+                                <p className="card-text text-muted mb-4">
+                                    Accès complet à la gestion de l'école
+                                </p>
+                                <button 
+                                    className="btn btn-primary btn-lg w-100"
+                                    onClick={() => this.handleRoleSelection('admin')}
+                                >
+                                    Accéder au Dashboard Admin
+                                </button>
+                            </div>
                         </div>
                     </div>
-                ) : (
-                    <div>
-                        {profSet.length > 0 ? (
-                            <ProfList profs={profSet} onDelete={this.removeProf} />
-                        ) : (
-                            <div className="alert alert-info">
-                                Aucun professeur trouvé. Ajoutez-en un !
+
+                    <div className="col-md-4">
+                        <div className="card h-100 shadow-sm hover-card">
+                            <div className="card-body text-center p-5">
+                                <div className="mb-4">
+                                    <span style={{ fontSize: '5rem' }}>👨‍🏫</span>
+                                </div>
+                                <h3 className="card-title mb-3">Professeur</h3>
+                                <p className="card-text text-muted mb-4">
+                                    Gérer vos classes et vos étudiants
+                                </p>
+                                <button 
+                                    className="btn btn-success btn-lg w-100"
+                                    onClick={() => this.handleRoleSelection('prof')}
+                                >
+                                    Accéder à l'espace Prof
+                                </button>
                             </div>
-                        )}
+                        </div>
                     </div>
-                )}
+
+                    <div className="col-md-4">
+                        <div className="card h-100 shadow-sm hover-card">
+                            <div className="card-body text-center p-5">
+                                <div className="mb-4">
+                                    <span style={{ fontSize: '5rem' }}>👨‍🎓</span>
+                                </div>
+                                <h3 className="card-title mb-3">Étudiant</h3>
+                                <p className="card-text text-muted mb-4">
+                                    Consulter vos cours et informations
+                                </p>
+                                <button 
+                                    className="btn btn-info btn-lg w-100"
+                                    onClick={() => this.handleRoleSelection('etudiant')}
+                                >
+                                    Accéder à l'espace Étudiant
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }
 }
 
-export default Home;
+// HOC pour injecter navigate
+function withRouter(Component) {
+    return props => {
+        const navigate = useNavigate();
+        return <Component {...props} navigate={navigate} />;
+    };
+}
+
+export default withRouter(Home);

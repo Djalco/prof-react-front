@@ -3,8 +3,8 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
 import DashboardLayout from '../layouts/DashboardLayout';
 import Dashboard from '../pages/Dashboard';
-import Home from '../pages/Home';
-import Login from '../pages/Login';
+import LoginAdmin from '../pages/LoginAdmin';
+import LoginProf from '../pages/LoginProf';
 import Messages from '../pages/Messages';
 import Etudiants from '../pages/Etudiants';
 
@@ -14,14 +14,18 @@ import Classes from '../pages/Classes';
 import ClasseForm from '../components/classes/ClasseForm';
 import ClasseProfs from '../pages/ClasseProfs';
 import EtudiantForm from '../components/etudiants/EtudiantForm';
+import Profs from '../pages/Profs';
+import Home from '../pages/Home';
 
 const AppRoutes = () => {
     return (
         <Routes>
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<LoginAdmin />} />
+            <Route path="/login-prof" element={<LoginProf />} />
             
             <Route
-                path="/"
+                path="/admin"
                 element={
                     <ProtectedRoute>
                         <DashboardLayout />
@@ -29,8 +33,10 @@ const AppRoutes = () => {
                 }
             >
                 <Route index element={<Dashboard />} />
-                 {/* Prof routes */}
-                <Route path="profs" element={<Home />} />
+                <Route path="dashboard" element={<Dashboard />} />
+                
+                {/* Prof routes */}
+                <Route path="profs" element={<Profs />} />
                 <Route path="prof/:id" element={<ProfForm edit={true} />} />
                 <Route path="prof-create" element={<ProfForm edit={false} />} />
                 <Route path="prof/:id/classes" element={<ProfClasses />} />

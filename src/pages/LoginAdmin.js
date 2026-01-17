@@ -4,7 +4,7 @@ import authService from "../services/auth.service";
 import { authUtils } from "../utils/auth";
 import TextInput from "../components/common/TextInput";
 
-class Login extends Component {
+class LoginAdmin extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -34,7 +34,6 @@ class Login extends Component {
       .then(response => {
         if (response.data.token) {
           authUtils.setToken(response.data.token);
-          localStorage.setItem('userRole', response.data.role || 'admin'); // Stocker le rôle
           this.setState({ redirectToHome: true });
         }
       })
@@ -55,14 +54,11 @@ class Login extends Component {
     const { error, loading } = this.state;
 
     return (
-      <div className="row justify-content-center mt-5">
+      <div className="row justify-content-center">
         <div className="col-md-6">
           <div className="card">
             <div className="card-body">
-              <div className="text-center mb-4">
-                <span style={{ fontSize: '4rem' }}>👨‍💼</span>
-              </div>
-              <h2 className="card-title text-center mb-4">Connexion Admin/Étudiant</h2>
+              <h2 className="card-title text-center mb-4">Connexion</h2>
               
               {error && (
                 <div className="alert alert-danger" role="alert">
@@ -95,12 +91,6 @@ class Login extends Component {
                   {loading ? 'Connexion...' : 'Se connecter'}
                 </button>
               </form>
-              
-              <div className="text-center mt-3">
-                <a href="/login-prof" className="text-muted">
-                  Se connecter en tant que Professeur
-                </a>
-              </div>
             </div>
           </div>
         </div>
@@ -109,4 +99,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default LoginAdmin;
