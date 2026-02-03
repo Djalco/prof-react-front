@@ -13,7 +13,7 @@ const Dashboard = () => {
                     Bienvenue {userRole === 'admin' ? 'Admin' : userRole === 'prof' ? 'Professeur' : 'Étudiant'} {userName}
                 </h1>
                 <p className="lead text-muted">
-                    {userRole === 'admin' ? 'Gérez votre École' : 'Consultez vos classes'}
+                    {userRole === 'admin' ? 'Gérez votre École' : userRole === 'prof' ? 'Consultez vos classes' : 'Consultez vos camarades'}
                 </p>
             </div>
 
@@ -53,6 +53,7 @@ const Dashboard = () => {
                             </div>
                         </div>
                     </div>
+                    
                     <div className="row">
                         <div className="col-md-6 mb-4">
                             <div className="card h-100 shadow-sm">
