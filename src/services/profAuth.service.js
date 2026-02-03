@@ -7,4 +7,5 @@ class ProfAuthService {
     }
 }
 
-export default new ProfAuthService();
+const profAuthService = new ProfAuthService();
+export default profAuthService;
