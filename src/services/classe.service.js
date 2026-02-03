@@ -40,5 +40,5 @@ class ClasseService {
     }
 }
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default new ClasseService();
+const classeService = new ClasseService();
+export default classeService;

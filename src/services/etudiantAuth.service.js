@@ -22,5 +22,5 @@ class EtudiantAuthService {
     }
 }
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default new EtudiantAuthService();
+const etudiantAuthService = new EtudiantAuthService();
+export default etudiantAuthService;

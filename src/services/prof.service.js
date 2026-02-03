@@ -31,5 +31,5 @@ class ProfService {
     }
 }
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default new ProfService();
+const profService = new ProfService();
+export default profService;
