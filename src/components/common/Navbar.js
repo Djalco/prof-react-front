@@ -25,7 +25,7 @@ const Sidebar = () => {
         <div className="sidebar bg-dark text-white d-flex flex-column" style={{ width: '250px', minHeight: '100vh', position: 'fixed' }}>
             <div className="p-3">
                 <Link to="/admin" className="text-white text-decoration-none">
-                    <h4 className="mb-0">📚 École</h4>
+                    <h4 className="mb-0">🏫 École</h4>
                     <small className="text-muted">Dashboard</small>
                 </Link>
             </div>
@@ -86,6 +86,15 @@ const Sidebar = () => {
                                 >
                                     <span className="me-2">🎓</span>
                                     Classes
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link
+                                    to="/admin/matieres"
+                                    className={`nav-link text-white ${isActive('/admin/matieres') ? 'bg-primary rounded' : ''}`}
+                                >
+                                    <span className="me-2">📚</span>
+                                    Matieres
                                 </Link>
                             </li>
                             <li className="nav-item">

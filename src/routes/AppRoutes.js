@@ -20,6 +20,8 @@ import ClasseProfs from '../pages/ClasseProfs';
 import EtudiantForm from '../components/etudiants/EtudiantForm';
 import Profs from '../pages/Profs';
 import Home from '../pages/Home';
+import MatiereForm from '../components/matieres/MatiereForm';
+import Matiere from '../pages/Matiere';
 
 const AppRoutes = () => {
     return (
@@ -40,6 +42,12 @@ const AppRoutes = () => {
                 <Route index element={<Dashboard />} />
                 <Route path="dashboard" element={<Dashboard />} />
                 
+                {/* matieres routes*/}
+                <Route path="matieres" element={<Matiere />} />
+                <Route path="matiere/:id" element={<MatiereForm edit={true} />} />
+                <Route path="matiere-create" element={<MatiereForm edit={false} />} />
+                {/* <Route path="matieres/:id/classes" element={<ProfClasses />} /> */}
+
                 {/* Prof routes */}
                 <Route path="profs" element={<Profs />} />
                 <Route path="prof/:id" element={<ProfForm edit={true} />} />
@@ -52,9 +60,6 @@ const AppRoutes = () => {
                 {/* Routes spécifiques pour les profs */}
                 <Route path="mes-classes" element={<MesClasses />} />
                 <Route path="mes-classes/:classeId/etudiants" element={<ClasseEtudiants />} />
-
-                {/* Route spécifique pour les étudiants */}
-                <Route path="mes-caramades" element={<MesCaramades />} />
 
                 {/* Route spécifique pour les étudiants */}
                 <Route path="mes-caramades" element={<MesCaramades />} />
