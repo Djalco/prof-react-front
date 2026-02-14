@@ -8,7 +8,7 @@ class LoginProf extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            nom: "",
+            email: "",
             mdp: "",
             redirectToHome: false,
             error: "",
@@ -28,7 +28,7 @@ class LoginProf extends Component {
         this.setState({ loading: true, error: "" });
 
         profAuthService.login({
-            nom: this.state.nom,
+            email: this.state.email,
             mdp: this.state.mdp
         })
             .then(response => {
@@ -75,10 +75,10 @@ class LoginProf extends Component {
 
                             <form onSubmit={this.handleSubmit}>
                                 <TextInput
-                                    id="nom"
-                                    label="Nom d'utilisateur"
+                                    id="email"
+                                    label="Email d'utilisateur"
                                     type="text"
-                                    value={this.state.nom}
+                                    value={this.state.email}
                                     onChange={this.handleChange}
                                     required
                                 />

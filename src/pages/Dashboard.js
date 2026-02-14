@@ -99,8 +99,8 @@ const Dashboard = () => {
                                         <Link to="/admin/prof-create" className="btn btn-success">
                                             ➕ Ajouter un professeur
                                         </Link>
-                                        <Link to="/admin/messages" className="btn btn-info">
-                                            ✍️ Écrire un message
+                                        <Link to="/admin/matiere-create" className="btn btn-info">
+                                            ➕ Ajouter une matiere
                                         </Link>
                                     </div>
                                 </div>

@@ -13,6 +13,7 @@ class ProfForm extends Component {
             nom: '',
             prenom: '',
             bureau: '',
+            email : '',
             mdp: '',
             matiereId: '',
             matieres: [],
@@ -82,8 +83,8 @@ class ProfForm extends Component {
 
     handleSave() {
         this.setState({ loading: true });
-        const { nom, prenom, bureau, mdp, selectedClasses, matiereId } = this.state;
-        const data = { nom, prenom, bureau, mdp: mdp || undefined, matiereId: matiereId };
+        const { nom, prenom, bureau, mdp, selectedClasses, matiereId , email} = this.state;
+        const data = { nom, prenom, bureau, mdp: mdp || undefined, matiereId: matiereId, email : email };
 
         const savePromise = this.props.edit
             ? profService.update(this.props.params.id, data)
@@ -131,6 +132,14 @@ class ProfForm extends Component {
                         id="prenom"
                         label="Prénom"
                         value={this.state.prenom}
+                        onChange={this.handleChange}
+                        required
+                    />
+                    <TextInput
+                        id="email"
+                        label="email"
+                        type="email"
+                        value={this.state.email}
                         onChange={this.handleChange}
                         required
                     />
