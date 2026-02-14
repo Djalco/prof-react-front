@@ -4,6 +4,7 @@ import profService from '../../services/prof.service';
 import classeService from '../../services/classe.service';
 import TextInput from '../common/TextInput';
 import MultiSelect from '../common/MultiSelect';
+import matiereService from '../../services/matiere.service';
 
 class ProfForm extends Component {
     constructor(props) {
@@ -13,6 +14,8 @@ class ProfForm extends Component {
             prenom: '',
             bureau: '',
             mdp: '',
+            matiereId: '',
+            matieres: [],
             selectedClasses: [],
             allClasses: [],
             loading: false
@@ -25,11 +28,17 @@ class ProfForm extends Component {
 
     componentDidMount() {
         this.setState({ loading: true });
-        
+
         // Charger toutes les classes
-        classeService.getAll()
-            .then(response => {
-                this.setState({ allClasses: response.data.data || [] });
+        Promise.all([
+            classeService.getAll(),
+            matiereService.getAll()
+        ])
+            .then(([classRes,matiereRes]) => {
+                this.setState({
+                    allClasses: classRes.data.data || [],
+                    matieres: matiereRes.data.data || []
+                });
             })
             .catch(err => {
                 console.error('Erreur lors du chargement des classes:', err);
@@ -43,13 +52,13 @@ class ProfForm extends Component {
                         ...response.data.data,
                         loading: false
                     });
-                    
+
                     // Charger les classes assignées à ce professeur
                     return profService.getClasses(this.props.params.id);
                 })
                 .then(response => {
                     const classes = response.data.data || [];
-                    this.setState({ 
+                    this.setState({
                         selectedClasses: classes.map(c => c.id)
                     });
                 })
@@ -73,8 +82,8 @@ class ProfForm extends Component {
 
     handleSave() {
         this.setState({ loading: true });
-        const { nom, prenom, bureau, mdp, selectedClasses } = this.state;
-        const data = { nom, prenom, bureau, mdp: mdp || undefined };
+        const { nom, prenom, bureau, mdp, selectedClasses, matiereId } = this.state;
+        const data = { nom, prenom, bureau, mdp: mdp || undefined, matiereId: matiereId };
 
         const savePromise = this.props.edit
             ? profService.update(this.props.params.id, data)
@@ -84,7 +93,7 @@ class ProfForm extends Component {
             .then((response) => {
                 // Récupérer l'ID du professeur (nouvel ID ou ID existant)
                 const profId = this.props.edit ? this.props.params.id : response.data.data.id;
-                
+
                 // Assigner les classes au professeur (même si le tableau est vide pour mettre à jour)
                 return profService.assignClasses(profId, selectedClasses);
             })
@@ -132,6 +141,24 @@ class ProfForm extends Component {
                         onChange={this.handleChange}
                         required
                     />
+                    <div className="form-group">
+                        <label htmlFor='matiereId'> Cours : </label>
+                        <select
+                            id="matiereId"
+                            className="form-select"
+                            value={this.state.matiereId}
+                            onChange={this.handleChange}
+                        >
+                            <option value="">-- Choisir une matière --</option>
+                            {this.state.matieres.map(m => (
+                                <option key={m.id} value={m.id}>
+                                    {m.nom}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    
+
                     <TextInput
                         id="mdp"
                         label="Mot de passe"
@@ -140,16 +167,16 @@ class ProfForm extends Component {
                         onChange={this.handleChange}
                         required
                     />
-                    
+
                     <MultiSelect
                         label="Classes"
                         options={this.state.allClasses}
                         selected={this.state.selectedClasses}
                         idKey="id"
-                        labelKey=" niveau"                        labelFormatter={(classe) => `${classe.nom} ${classe.niveau}`}                        onChange={this.handleClassesChange}
+                        labelKey=" niveau" labelFormatter={(classe) => `${classe.nom} ${classe.niveau}`} onChange={this.handleClassesChange}
                         disabled={loading}
                     />
-                    
+
                     <div className="mt-3">
                         <button
                             className="btn btn-primary"

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import profService from '../../services/prof.service';
 
-const ProfItem = ({ prof, onDelete }) => {
+const ProfItem = ({ prof, onDelete , nomMatiere}) => {
     const { id, nom, prenom, bureau } = prof;
 
     const handleDelete = () => {
@@ -16,6 +16,7 @@ const ProfItem = ({ prof, onDelete }) => {
             <td>{nom}</td>
             <td>{prenom}</td>
             <td>{bureau}</td>
+            <td>{nomMatiere}</td>
             <td>
                 <Link to={`/admin/prof/${id}`}>
                     <button className='btn btn-sm btn-info'>Éditer</button>

@@ -1,7 +1,9 @@
 import React from 'react';
 import ProfItem from './ProfItem';
 
-const ProfList = ({ profs, onDelete }) => {
+const ProfList = ({ profs,matieres, onDelete }) => {
+    console.log(profs)
+
     return (
         <table className='table table-condensed table-hover'>
             <thead>
@@ -9,17 +11,23 @@ const ProfList = ({ profs, onDelete }) => {
                     <th>Nom</th>
                     <th>Prénom</th>
                     <th>Bureau</th>
+                    <th>Cours</th>
                     <th>Commandes</th>
                 </tr>
             </thead>
             <tbody>
-                {profs.map((prof, index) => (
-                    <ProfItem
-                        key={prof.id || `prof-${index}`}
-                        prof={prof}
-                        onDelete={onDelete}
-                    />
-                ))}
+                {profs.map((prof, index) => {
+                    const matiereTrouvee = matieres.find(m => m.id === prof.matiereId)
+
+                    return (
+                        <ProfItem
+                            key={prof.id || `prof-${index}`}
+                            prof={prof}
+                            nomMatiere={matiereTrouvee ? matiereTrouvee.nom : "Non renseigne" }
+                            onDelete={onDelete}
+                        />
+                    )
+                } )}
             </tbody>
         </table>
     );
