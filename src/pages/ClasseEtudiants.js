@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import classService from '../services/classe.service';
 
 class ClasseEtudiantsBase extends Component {
@@ -15,37 +15,33 @@ class ClasseEtudiantsBase extends Component {
 
     componentDidMount() {
         const { classeId } = this.props.params;
-        
-        if (classeId) {
-            // Récupérer les informations de la classe
-            classService.getById(classeId)
-                .then(response => {
-                    this.setState({ classe: response.data.data });
-                })
-                .catch(error => {
-                    console.error('Erreur classe:', error);
-                });
 
-            // Récupérer les étudiants de la classe
+        if (!classeId) {
+            this.setState({ error: 'Identifiant de classe manquant', loading: false });
+            return;
+        }
+
+        this.setState({ loading: true });
+
+        // Chargement parallèle de la classe et de ses étudiants
+        Promise.all([
+            classService.getById(classeId),
             classService.getEtudiants(classeId)
-                .then(response => {
-                    this.setState({
-                        etudiants: response.data.data || [],
-                        loading: false
-                    });
-                })
-                .catch(error => {
-                    this.setState({
-                        error: 'Erreur lors du chargement des étudiants',
-                        loading: false
-                    });
-                });
-        } else {
+        ])
+        .then(([classeRes, etudiantsRes]) => {
             this.setState({
-                error: 'Identifiant de classe manquant',
+                classe: classeRes.data.data,
+                etudiants: etudiantsRes.data.data || [],
                 loading: false
             });
-        }
+        })
+        .catch(error => {
+            console.error('Erreur lors du chargement:', error);
+            this.setState({
+                error: 'Impossible de récupérer les données de la classe.',
+                loading: false
+            });
+        });
     }
 
     handleGoBack = () => {
@@ -54,83 +50,121 @@ class ClasseEtudiantsBase extends Component {
 
     render() {
         const { classe, etudiants, loading, error } = this.state;
+        const { classeId } = this.props.params;
+
+        if (loading) {
+            return (
+                <div className="d-flex justify-content-center align-items-center" style={{ height: '300px' }}>
+                    <div className="spinner-border text-primary" role="status">
+                        <span className="visually-hidden">Chargement...</span>
+                    </div>
+                </div>
+            );
+        }
+
+        if (error) {
+            return (
+                <div className="alert alert-danger shadow-sm">
+                    <i className="bi bi-exclamation-triangle-fill me-2"></i> {error}
+                    <button className="btn btn-link" onClick={this.handleGoBack}>Retour</button>
+                </div>
+            );
+        }
 
         return (
-            <div>
-                <div className="mb-4">
-                    <button 
-                        className="btn btn-outline-secondary mb-3" 
-                        onClick={this.handleGoBack}
-                    >
-                        ← Retour à mes classes
-                    </button>
+            <div className="container-fluid">
+                {/* Header Section */}
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <button className="btn btn-sm btn-outline-secondary mb-2" onClick={this.handleGoBack}>
+                            ← Retour à mes classes
+                        </button>
+                        <h2 className="fw-bold">👨‍🎓 Gestion de la Classe</h2>
+                    </div>
                     
-                    <h2>👨‍🎓 Étudiants de la classe</h2>
-                    {classe && (
-                        <div className="mb-3">
-                            <h4 className="text-primary">{classe.nom}</h4>
-                            <span className="badge bg-secondary">{classe.niveau}</span>
-                            {classe.description && (
-                                <p className="text-muted mt-2">{classe.description}</p>
-                            )}
-                        </div>
-                    )}
+                    {/* Lien vers la saisie des notes collective */}
+                    <Link to={`/admin/mes-classes/${classeId}/saisie-notes`}>
+                        <button className="btn btn-success shadow-sm">
+                            <i className="bi bi-plus-circle me-2"></i> Attribuer les Notes
+                        </button>
+                    </Link>
                 </div>
 
-                {loading ? (
-                    <div className="text-center">
-                        <div className="spinner-border" role="status">
-                            <span className="visually-hidden">Chargement...</span>
+                {/* Infos de la Classe */}
+                {classe && (
+                    <div className="card border-0 shadow-sm mb-4 bg-light">
+                        <div className="card-body">
+                            <div className="row align-items-center">
+                                {/* <div className="col-auto">
+                                    <div className="bg-primary text-white rounded p-3">
+                                        <h3 className="mb-0">{classe.niveau}</h3>
+                                    </div>
+                                </div> */}
+                                <div className="col">
+                                    <h4 className="card-title text-dark mb-1">{classe.nom} {classe.niveau} </h4>
+                                    <p className="card-text text-muted mb-0">
+                                        {classe.description || "Aucune description fournie pour cette classe."}
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                ) : error ? (
-                    <div className="alert alert-danger">{error}</div>
-                ) : etudiants.length > 0 ? (
-                    <div className="card">
-                        <div className="card-body">
-                            <h5 className="card-title mb-4">
-                                Liste des étudiants ({etudiants.length})
-                            </h5>
+                )}
+
+                {/* Tableau des Étudiants */}
+                <div className="card border-0 shadow-sm">
+                    <div className="card-header bg-white py-3">
+                        <h5 className="mb-0">Liste des élèves inscrits ({etudiants.length})</h5>
+                    </div>
+                    <div className="card-body p-0">
+                        {etudiants.length > 0 ? (
                             <div className="table-responsive">
-                                <table className="table table-hover">
-                                    <thead>
+                                <table className="table table-hover align-middle mb-0">
+                                    <thead className="table-light">
                                         <tr>
-                                            <th>#</th>
-                                            <th>Nom</th>
-                                            <th>Prénom</th>
+                                            <th className="ps-4">#</th>
+                                            <th>Nom & Prénom</th>
                                             <th>Email</th>
+                                            <th className="text-center">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {etudiants.map((etudiant, index) => (
                                             <tr key={etudiant.id || index}>
-                                                <td>{index + 1}</td>
-                                                <td>{etudiant.nom}</td>
-                                                <td>{etudiant.prenom}</td>
+                                                <td className="ps-4 text-muted">{index + 1}</td>
+                                                <td>
+                                                    <span className="fw-bold text-dark">{etudiant.nom.toUpperCase()}</span> {etudiant.prenom}
+                                                </td>
                                                 <td>{etudiant.email}</td>
+                                                <td className="text-center">
+                                                    <Link 
+                                                        to={`/admin/etudiant/${etudiant.id}/notes`} 
+                                                        className="btn btn-sm btn-outline-primary"
+                                                    >
+                                                        Consulter bulletin
+                                                    </Link>
+                                                </td>
                                             </tr>
                                         ))}
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
+                        ) : (
+                            <div className="text-center py-5">
+                                <p className="text-muted">Aucun étudiant n'est encore inscrit dans cette classe.</p>
+                            </div>
+                        )}
                     </div>
-                ) : (
-                    <div className="alert alert-info">
-                        <h5>Aucun étudiant</h5>
-                        <p className="mb-0">Cette classe ne contient actuellement aucun étudiant.</p>
-                    </div>
-                )}
+                </div>
             </div>
         );
     }
 }
 
-// Wrapper function pour utiliser les hooks React Router v6
+// Wrapper pour React Router v6
 function ClasseEtudiants(props) {
     const params = useParams();
     const navigate = useNavigate();
-    
     return <ClasseEtudiantsBase {...props} params={params} navigate={navigate} />;
 }
 

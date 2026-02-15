@@ -13,8 +13,14 @@ class MesClasses extends Component {
     }
 
     componentDidMount() {
-        const profId = localStorage.getItem('userId');
-        
+        // 1. On récupère l'ID (assure-toi que la clé est la même que dans LoginProf.js)
+        const profId = localStorage.getItem('profId');
+
+        if (!profId) {
+            console.error("ID du professeur introuvable dans le localStorage");
+            // Optionnel : rediriger vers la page de login
+            return;
+        }        
         if (profId) {
             classService.getClassesByProf(profId)
                 .then(response => {
@@ -46,7 +52,6 @@ class MesClasses extends Component {
                     <h2>📚 Mes Classes</h2>
                     <p className="text-muted">Consulter les classes qui vous sont assignées</p>
                 </div>
-
                 {loading ? (
                     <div className="text-center">
                         <div className="spinner-border" role="status">

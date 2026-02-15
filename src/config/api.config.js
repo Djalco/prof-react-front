@@ -6,5 +6,6 @@ export const API_ENDPOINTS = {
     MESSAGES: '/messages',
     ETUDIANTS: '/etudiants',
     CLASSES: '/classes',
-    MATIERES: '/matieres'
+    MATIERES: '/matieres',
+    NOTES : '/notes'
 };

@@ -34,10 +34,14 @@ class LoginProf extends Component {
             .then(response => {
                 if (response.data.token) {
                     authUtils.setToken(response.data.token);
-                    // Stocker les informations du professeur
+
                     localStorage.setItem('userName', response.data.nom + ' ' + (response.data.prenom || ''));
                     localStorage.setItem('userRole', 'prof');
-                    localStorage.setItem('userId', response.data.profId);
+                    // Stocke-le explicitement sous 'profId'
+                    localStorage.setItem('profId', response.data.profId);
+                    // Optionnel : garde userId si tu en as besoin ailleurs
+                    localStorage.setItem('userId', response.data.id);
+
                     this.setState({ redirectToHome: true });
                 }
             })

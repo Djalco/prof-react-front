@@ -22,6 +22,7 @@ import Profs from '../pages/Profs';
 import Home from '../pages/Home';
 import MatiereForm from '../components/matieres/MatiereForm';
 import Matiere from '../pages/Matiere';
+import SaisieNotes from '../pages/SaisieNotesBase';
 
 const AppRoutes = () => {
     return (
@@ -30,7 +31,7 @@ const AppRoutes = () => {
             <Route path="/login" element={<LoginAdmin />} />
             <Route path="/login-prof" element={<LoginProf />} />
             <Route path="/login-etudiant" element={<LoginEtudiant />} />
-            
+
             <Route
                 path="/admin"
                 element={
@@ -41,7 +42,7 @@ const AppRoutes = () => {
             >
                 <Route index element={<Dashboard />} />
                 <Route path="dashboard" element={<Dashboard />} />
-                
+
                 {/* matieres routes*/}
                 <Route path="matieres" element={<Matiere />} />
                 <Route path="matiere/:id" element={<MatiereForm edit={true} />} />
@@ -54,12 +55,13 @@ const AppRoutes = () => {
                 <Route path="prof-create" element={<ProfForm edit={false} />} />
                 <Route path="prof/:id/classes" element={<ProfClasses />} />
 
-                {/* Messages route */}   
+                {/* Messages route */}
                 <Route path="messages" element={<Messages />} />
 
                 {/* Routes spécifiques pour les profs */}
                 <Route path="mes-classes" element={<MesClasses />} />
                 <Route path="mes-classes/:classeId/etudiants" element={<ClasseEtudiants />} />
+                <Route path='mes-classes/:classeId/saisie-notes' element={<SaisieNotes />} />
 
                 {/* Route spécifique pour les étudiants */}
                 <Route path="mes-caramades" element={<MesCaramades />} />
